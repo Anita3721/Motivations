@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Motivational Speaker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Daily Motivation</h1>
+        <p id="quote">Click the button to get your motivation!</p>
+        <button onclick="generateQuote()">New Quote</button>
+        <button onclick="speakQuote()">🔊 Speak</button>
+        <button onclick="shareLink()">📤 Share</button>
+    </div>
+    <script src="script.js"></script>
+    
+    
+</body>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #f4f4f4;
+    padding: 50px;
+}
+
+.container {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    margin: auto;
+}
+
+button {
+    background: #28a745;
+    color: white;
+    border: none;
+    padding: 10px;
+    margin: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+button:hover {
+    background: #218838;
+}
+</style>
+
+<script>
+const quotes = [
+    "Believe in yourself and all that you are.",
+    "Your only limit is your mind.",
+    "You are stronger than you think.",
+    "Dream big and dare to fail.",
+    "Keep pushing forward, no matter what!",
+    "Every day is a new opportunity to grow.",
+ "Being a good person doesn't get you loved, it gets you used!",
+"That one thing you are avoiding could be the solutions to your problems.",
+"Determination, alongside hardwork leads to success."
+];
+
+function generateQuote() {
+    let randomIndex = Math.floor(Math.random() * quotes.length);
+    document.getElementById("quote").innerText = quotes[randomIndex];
+}
+
+function speakQuote() {
+    let quote = document.getElementById("quote").innerText;
+    let speech = new SpeechSynthesisUtterance(quote);
+    speech.lang = "en-US";
+    window.speechSynthesis.speak(speech);
+}
+
+// Load a quote when the page opens
+window.onload = generateQuote;
+
+function shareLink() {
+    let shareUrl = window.location.href;
+    let message = `Get your daily motivation here: ${shareUrl}`;
+    
+    if (navigator.share) {
+        navigator.share({
+            title: "Daily Motivation",
+            text: message,
+            url: shareUrl
+        }).then(() => console.log("Shared successfully"))
+          .catch((error) => console.log("Sharing failed", error));
+    } else {
+        prompt("Copy this link and share:", shareUrl);
+    }
+}
+</script>
+</html>
